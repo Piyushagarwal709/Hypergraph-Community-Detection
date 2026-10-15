@@ -1,0 +1,23 @@
+# Virtual environment
+.venv/
+venv/
+ENV/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.pytest_cache/
+
+# Cython compiled binaries (target machine will recompile with setup.py)
+FMHMO/FMHMO/*.so
+
+# Temporary files
+*.log
+.DS_Store
+
+# Ignored untracked files
+as.pdf
+9_PiyushAgarwal_29september_.pdf
+final.md
+task_summary.html

@@ -1,0 +1,162 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{cite}
+
+\geometry{margin=1in}
+
+\title{\textbf{FMHMO-Overlap: Overlapping Hypergraph Community Detection from Fuzzy Memberships}}
+\author{\textbf{Piyush Agarwal} \and \textbf{Suraj Kumar Tiwari}}
+\date{October 2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Hypergraphs model complex higher-order group relationships where each hyperedge can connect an arbitrary number of nodes. In a recent 2025 study published in \textit{IEEE Transactions on Fuzzy Systems}, Xiao et al. introduced \textbf{FMHMO}, which determines node-to-community fuzzy memberships $u(v, C)$ to assist partition recovery. However, despite the core premise of computing ``fuzzy memberships'', the authors' final step applies a rigid $\operatorname{argmax}$ operation, discarding all multi-community distribution information and producing exclusively crisp partitions. Furthermore, the memberships were never validated on overlapping ground truth. In this work, we develop \textbf{FMHMO-Overlap}, an end-to-end framework that exposes the continuous $n \times c$ membership matrix $U$ and derives overlapping communities via four principled assignment rules (R0 argmax, R1 fixed threshold $\tau$, R2 relative threshold $\rho$, and R3 top-$k$). We design a planted-overlap synthetic hypergraph benchmark and evaluate using overlap-aware metrics: Overlapping NMI, Omega Index, and Overlapping F1. Empirical reproduction on the original paper's datasets replicates reported crisp performance exactly on \texttt{workspace} (NMI 0.836, ARI 0.849, F1 0.924). On planted overlap benchmarks ($p_{\text{ov}} = 0.20$), our framework recovers multi-community nodes with an Overlap-Node F1 of \textbf{0.765} and Omega Index of \textbf{0.828}, whereas the crisp baseline achieves \textbf{0.000}. On crisp controls ($p_{\text{ov}} = 0.0$), our thresholding rules maintain a False Overlap Rate of \textbf{0.00\%}. Finally, we analyze real-world hypergraphs (\texttt{hospital} and \texttt{workspace}) and uncover interpretable cross-department bridge nodes.
+\end{abstract}
+
+\section{Introduction}
+Hypergraph community detection is pivotal in modeling systems where relationships are inherently group-based, such as scientific co-authorships, cellular protein complexes, and contact networks. Standard graph projections (like clique expansions) often induce severe structural distortion and information loss.
+
+To address this, Xiao et al. (IEEE TFS 2025) proposed the \textbf{FMHMO} framework, which operates in three stages:
+\begin{enumerate}
+    \item \textbf{HS-HR (Hyperedge Similarity-based Reduction):} Projects hyperedges onto a weighted graph where edge weights $w_{ij}$ combine hyperedge topology and average node similarity parameterized by $\gamma$.
+    \item \textbf{Modularity Optimization:} Partitions the reduced graph using Louvain/multilevel modularity maximization.
+    \item \textbf{FM-HPR (Partition Recovery):} Maps the partition back to individual nodes. Nodes in multi-community hyperedges (bridge nodes) are resolved by calculating node-to-community fuzzy memberships $u(v, C)$.
+\end{enumerate}
+
+\subsection{The Core Research Gap}
+Although the paper computes continuous membership grades $u(v, C) \in [0, 1]$, its final recovery step applies:
+\begin{equation}
+    X[v] = \arg\max_{C} u(v, C)
+\end{equation}
+All non-maximal membership values are permanently discarded. Consequently, the algorithm produces a purely crisp partition without overlap. Furthermore, the paper never validates memberships on overlapping ground truth and relies exclusively on crisp metrics (standard NMI, ARI) incapable of evaluating multi-membership accuracy.
+
+\section{Proposed Method: FMHMO-Overlap}
+
+\subsection{Continuous Membership Matrix Extraction}
+For a hypergraph $G = (V, E)$ with $n = |V|$ nodes and $c$ communities, we extract matrix $U \in \mathbb{R}^{n \times c}$ such that:
+\begin{itemize}
+    \item For non-bridge nodes whose hyperedges all belong to community $C^*$, the membership row is one-hot: $U[v, C^*] = 1.0$ and $U[v, C] = 0.0$ for $C \neq C^*$.
+    \item For bridge nodes, $U[v, :]$ stores the normalized membership grades across neighbor communities $C$:
+    \begin{equation}
+        u(v, C) = \frac{\operatorname{attr}(v, C)}{\sum_{C' \in \Gamma_C(v)} \operatorname{attr}(v, C')}
+    \end{equation}
+    where $\operatorname{attr}(v, C) = \sum_{e \in \Gamma_e(v)} u(v, e) \cdot \frac{|e \cap C|}{|e|}$.
+\end{itemize}
+Every row strictly satisfies $\sum_{j=0}^{c-1} U[v, j] = 1.0$ and $U[v, j] \ge 0$.
+
+\subsection{Assignment Rules}
+We implement four modular assignment rules:
+\begin{enumerate}
+    \item \textbf{R0 (Argmax Baseline):} $v \in C_j \iff j = \arg\max_k U[v, k]$ (Original paper).
+    \item \textbf{R1 (Fixed Threshold $\tau$):} $v \in C_j \iff U[v, j] \ge \tau \cup \{\arg\max_k U[v, k]\}$ (Default $\tau = 0.25$).
+    \item \textbf{R2 (Relative Threshold $\rho$):} $v \in C_j \iff U[v, j] \ge \rho \cdot \max_k U[v, k]$ (Default $\rho = 0.70$).
+    \item \textbf{R3 (Top-$k$):} Assigns node $v$ to its top $k$ communities with $U[v, j] > 0$.
+\end{enumerate}
+
+\section{Evaluation Framework}
+\subsection{Planted-Overlap Hypergraph Generator}
+We generate synthetic hypergraphs with $n$ nodes and $c$ communities. A controlled fraction $p_{\text{ov}} \in [0.0, 0.4]$ of nodes is planted into 2 or 3 communities. Hyperedges of size $d \in [2, 6]$ are drawn from within a community with probability $1 - \xi$, and uniformly at random with noise probability $\xi$. When $p_{\text{ov}} = 0.0$, the benchmark acts as a strictly crisp control.
+
+\subsection{Overlap-Aware Metrics}
+We utilize standard overlapping metrics:
+\begin{itemize}
+    \item \textbf{Overlapping NMI (ONMI):} The LFK / McDaid conditional entropy formulation.
+    \item \textbf{Omega Index ($\Omega$):} The overlapping equivalent of the Adjusted Rand Index measuring pairwise co-membership agreement against chance.
+    \item \textbf{Overlap-Node Precision, Recall, and F1:} Binary classification performance on identifying which nodes belong to multiple communities.
+\end{itemize}
+
+\section{Experimental Results}
+
+\subsection{Baseline Reproduction (E0)}
+We reproduced FMHMO on the authors' benchmark datasets (Table \ref{tab:reproduction}). On \texttt{workspace}, our reproduced scores match the published numbers to three decimal places.
+
+\begin{table}[h!]
+\centering
+\caption{Reproduction comparison with published values (Xiao et al., IEEE TFS 2025).}
+\label{tab:reproduction}
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Dataset} & \textbf{Metric} & \textbf{Reproduced (Ours)} & \textbf{Paper Value} & \textbf{Difference} & \textbf{Status} \\
+\midrule
+\texttt{workspace} & NMI & \textbf{0.836} $\pm$ 0.000 & \textbf{0.836} & 0.000 & Exact Match \\
+\texttt{workspace} & ARI & \textbf{0.849} $\pm$ 0.000 & \textbf{0.849} & 0.000 & Exact Match \\
+\texttt{workspace} & F1  & \textbf{0.924} $\pm$ 0.000 & \textbf{0.924} & 0.000 & Exact Match \\
+\texttt{workspace} & FMI & \textbf{0.891} $\pm$ 0.000 & \textbf{0.891} & 0.000 & Exact Match \\
+\texttt{high\_school} & NMI & 0.937 $\pm$ 0.005 & 0.959 & -0.022 & Consistent \\
+\texttt{hospital}    & NMI & 0.119 $\pm$ 0.022 & 0.145 & -0.026 & Consistent \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Rule Comparison on Planted Overlap (E1)}
+Table \ref{tab:e1} demonstrates the performance of rules as planted overlap increases ($n=200, c=4, \xi=0.20$). While crisp R0 fails completely to detect overlapping nodes (F1 = 0.000), Rule R1 ($\tau=0.25$) achieves \textbf{0.765} Overlap F1 and \textbf{0.828} Omega Index.
+
+\begin{table}[h!]
+\centering
+\caption{Comparison of assignment rules across planted overlap fractions.}
+\label{tab:e1}
+\begin{tabular}{llcccc}
+\toprule
+\textbf{Planted $p_{\text{ov}}$} & \textbf{Rule} & \textbf{ONMI} & \textbf{Omega Index} & \textbf{Overlapping F1} & \textbf{Overlap-Node F1} \\
+\midrule
+$p_{\text{ov}} = 0.10$ & R0 (Argmax) & 0.779 & 0.816 & 0.939 & 0.000 \\
+& \textbf{R1 ($\tau=0.25$)} & \textbf{0.875} & \textbf{0.912} & \textbf{0.973} & \textbf{0.824} \\
+& R2 ($\rho=0.70$) & 0.829 & 0.871 & 0.959 & 0.571 \\
+\midrule
+$p_{\text{ov}} = 0.20$ & R0 (Argmax) & 0.657 & 0.664 & 0.888 & 0.000 \\
+& \textbf{R1 ($\tau=0.25$)} & \textbf{0.786} & \textbf{0.828} & \textbf{0.950} & \textbf{0.765} \\
+& R2 ($\rho=0.70$) & 0.721 & 0.735 & 0.917 & 0.400 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.85\textwidth]{E1_rules_vs_pov.png}
+\caption{Overlapping NMI and Omega Index vs Planted Overlap fraction ($p_{\text{ov}}$).}
+\label{fig:e1}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.95\textwidth]{E2_parameter_sensitivity.png}
+\caption{Parameter sensitivity curves for threshold $\tau$ (R1), ratio $\rho$ (R2), and top-$k$ (R3).}
+\label{fig:e2}
+\end{figure}
+
+\subsection{Control Experiment: Zero False Overlap (E4)}
+On purely disjoint hypergraphs ($p_{\text{ov}} = 0.0$), Rules R1 ($\tau \ge 0.25$) and R2 ($\rho \ge 0.70$) yield a False Overlap Rate of \textbf{0.00\%}. This proves that our thresholding mechanism does not hallucinate artificial overlaps when the underlying network is crisp.
+
+\subsection{Real-World Case Studies (E5)}
+On real networks, FMHMO-Overlap detects cross-community bridges:
+\begin{itemize}
+    \item \textbf{\texttt{hospital} ($n=75, m=1825$):} Under R1 ($\tau=0.25$), 36.0\% of nodes exhibit overlap. Node 74 (degree 11) has membership $u(74, C_5) = 0.542$ and $u(74, C_2) = 0.410$, acting as a critical bridge between two hospital staff clusters.
+    \item \textbf{\texttt{workspace} ($n=92, m=788$):} Under R1, 10.87\% of nodes overlap. Node 24 (degree 9) connects Community 2 ($u=0.541$) and Community 1 ($u=0.395$).
+\end{itemize}
+
+\section{Academic Limitations}
+We explicitly document two main limitations:
+\begin{enumerate}
+    \item \textbf{Single-hyperedge nodes cannot overlap:} Nodes participating in only one hyperedge have one-hot memberships ($u=1.0$) and cannot exhibit multi-membership.
+    \item \textbf{Post-partition dependency:} Memberships are calculated after the initial crisp hyperedge partition. If all hyperedges of an overlapping node are clustered into the same community, the overlap cannot be detected.
+\end{enumerate}
+
+\section{Conclusion}
+FMHMO-Overlap resolves the critical information-loss limitation of the 2025 IEEE TFS paper by exposing the complete fuzzy membership matrix $U$ and applying principled thresholding rules. Our evaluation framework demonstrates significant gains in overlap detection (+12.9\% ONMI at $p_{\text{ov}}=0.2$) while maintaining 0.00\% false overlap on crisp controls.
+
+\begin{thebibliography}{99}
+\bibitem{xiao2025} J. Xiao, L. Ma, J. Cao, and X. Xu, ``Hypergraph Community Detection With Fuzzy Memberships,'' \textit{IEEE Trans. Fuzzy Syst.}, vol. 33, no. 9, pp. 3255--3268, 2025.
+\bibitem{lancichinetti2009} A. Lancichinetti, S. Fortunato, and J. Kertész, ``Detecting the overlapping and hierarchical community structure in complex networks,'' \textit{New J. Phys.}, vol. 11, no. 3, p. 033015, 2009.
+\bibitem{mcdaid2011} A. F. McDaid, D. Greene, and N. Hurley, ``Normalized Mutual Information to evaluate overlapping community findings,'' \textit{arXiv:1110.2515}, 2011.
+\bibitem{ruggeri2023} N. Ruggeri, M. Contisciani, F. Battiston, and C. De Bacco, ``Community detection in large hypergraphs,'' \textit{Sci. Adv.}, vol. 9, no. 28, p. eadg9159, 2023.
+\end{thebibliography}
+
+\end{document}

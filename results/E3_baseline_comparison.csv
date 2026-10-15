@@ -1,0 +1,9 @@
+p_ov,Method,ONMI_mean,ONMI_std,Omega_mean,Omega_std,F1_mean,F1_std,Node_F1_mean,Node_F1_std
+0.1,FMHMO (Crisp R0),0.7791,0.0,0.8158,0.0,0.9387,0.0,0.0,0.0
+0.1,FMHMO-Overlap (R1 tau=0.25),0.8754,0.0,0.9125,0.0,0.9727,0.0,0.8235,0.0
+0.1,FMHMO-Overlap (R2 rho=0.7),0.8287,0.0,0.8707,0.0,0.9585,0.0,0.5714,0.0
+0.1,Expansion-Overlap Baseline,0.9053,0.0,0.922,0.0,0.9785,0.0,0.8333,0.0
+0.2,FMHMO (Crisp R0),0.6574,0.0,0.6638,0.0,0.8881,0.0,0.0,0.0
+0.2,FMHMO-Overlap (R1 tau=0.25),0.7859,0.0,0.8278,0.0,0.9496,0.0,0.7647,0.0
+0.2,FMHMO-Overlap (R2 rho=0.7),0.7208,0.0,0.7345,0.0,0.9167,0.0,0.4,0.0
+0.2,Expansion-Overlap Baseline,0.6429,0.0,0.6,0.0,0.9079,0.0,0.5965,0.0

@@ -1,0 +1,91 @@
+import numpy as np
+
+def print_result(log, RITA, network_name):
+    # =============================================================================
+    # 输出结果 RITA
+    # =============================================================================
+    log.info("\n## FHGCD_Louvain RITA #### {} ####".format(network_name))
+    # RITA['Qws'].remove(min(RITA['Qws']))
+    RITA['MGs'].remove(min(RITA['MGs']))
+    RITA['SGs'].remove(min(RITA['SGs']))
+    RITA['nmis'].remove(min(RITA['nmis']))
+    RITA['ARIs'].remove(min(RITA['ARIs']))
+    RITA['F1s'].remove(min(RITA['F1s']))
+    RITA['FMIs'].remove(min(RITA['FMIs']))
+    RITA['Precisions'].remove(min(RITA['Precisions']))
+    RITA['Accuracys'].remove(min(RITA['Accuracys']))
+    RITA['Recalls'].remove(min(RITA['Recalls']))
+    RITA['AMIs'].remove(min(RITA['AMIs']))
+
+    log.info("########### 多指标计算 RITA ###########")
+    # log.info('Qws_mean={},std={}, max={}'.format(round(np.mean(RITA['Qws']), 6), round(np.std(RITA['Qws']), 6), round(max(RITA['Qws']), 6)))
+    log.info('MG_mean={},std={}, max={}'.format(round(np.mean(RITA['MGs']), 6), round(np.std(RITA['MGs']), 6), round(max(RITA['MGs']), 6)))
+    log.info('SG_mean={},std={}, max={}'.format(round(np.mean(RITA['SGs']), 6), round(np.std(RITA['SGs']), 6), round(max(RITA['SGs']), 6)))
+    log.info('Hcut_mean={},std={}, min={}'.format(round(np.mean(RITA['Hcuts']), 6), round(np.std(RITA['Hcuts']), 6), round(min(RITA['Hcuts']), 6)))
+    log.info('nmis_mean={},std={}, max={}'.format(round(np.mean(RITA['nmis']), 6), round(np.std(RITA['nmis']), 6), round(max(RITA['nmis']), 6)))
+    log.info('ARIs_mean={},std={}, max={}'.format(round(np.mean(RITA['ARIs']), 6), round(np.std(RITA['ARIs']), 6), round(max(RITA['ARIs']), 6)))
+    log.info('F1_mean={},std={}, max={}'.format(round(np.mean(RITA['F1s']), 6), round(np.std(RITA['F1s']), 6), round(max(RITA['F1s']), 6)))
+    log.info('FMI_mean={},std={}, max={}'.format(round(np.mean(RITA['FMIs']), 6), round(np.std(RITA['FMIs']), 6), round(max(RITA['FMIs']), 6)))
+    log.info('Cs_mean={},std={}, max={}\n'.format(round(np.mean(RITA['Cs']), 6), round(np.std(RITA['Cs']), 6), round(max(RITA['Cs']), 6)))
+    log.info('Precisions_mean={},std={}, max={}'.format(round(np.mean(RITA['Precisions']), 6), round(np.std(RITA['Precisions']), 6), round(max(RITA['Precisions']), 6)))
+    log.info('Accuracys_mean={},std={}, max={}'.format(round(np.mean(RITA['Accuracys']), 6), round(np.std(RITA['Accuracys']), 6), round(max(RITA['Accuracys']), 6)))
+    log.info('Recalls_mean={},std={}, max={}'.format(round(np.mean(RITA['Recalls']), 6), round(np.std(RITA['Recalls']), 6), round(max(RITA['Recalls']), 6)))
+    log.info('AMIs_mean={},std={}, max={}'.format(round(np.mean(RITA['AMIs']), 6), round(np.std(RITA['AMIs']), 6), round(max(RITA['AMIs']), 6)))
+
+    # =============================================================================
+    # 输出结果 RITA_NCM
+    # =============================================================================
+    # log.info("\n## FHGCD_Louvain RITA_NCM #### {} ####".format(network_name))
+    # RITA_NCM['MGs'].remove(min(RITA_NCM['MGs']))
+    # RITA_NCM['SGs'].remove(min(RITA_NCM['SGs']))
+    # RITA_NCM['nmis'].remove(min(RITA_NCM['nmis']))
+    # RITA_NCM['ARIs'].remove(min(RITA_NCM['ARIs']))
+    # RITA_NCM['F1s'].remove(min(RITA_NCM['F1s']))
+    # RITA_NCM['FMIs'].remove(min(RITA_NCM['FMIs']))
+    # RITA_NCM['Precisions'].remove(min(RITA_NCM['Precisions']))
+    # RITA_NCM['Accuracys'].remove(min(RITA_NCM['Accuracys']))
+    # RITA_NCM['Recalls'].remove(min(RITA_NCM['Recalls']))
+    # RITA_NCM['AMIs'].remove(min(RITA_NCM['AMIs']))
+    #
+    # log.info("########### 多指标计算 RITA_NCM ###########")
+    # log.info('MG_mean={},std={}, max={}'.format(round(np.mean(RITA_NCM['MGs']), 6), round(np.std(RITA_NCM['MGs']), 6), round(max(RITA_NCM['MGs']), 6)))
+    # log.info('SG_mean={},std={}, max={}'.format(round(np.mean(RITA_NCM['SGs']), 6), round(np.std(RITA_NCM['SGs']), 6), round(max(RITA_NCM['SGs']), 6)))
+    # log.info('Hcut_mean={},std={}, min={}'.format(round(np.mean(RITA_NCM['Hcuts']), 6), round(np.std(RITA_NCM['Hcuts']), 6), round(min(RITA_NCM['Hcuts']), 6)))
+    # log.info('nmis_mean={},std={}, max={}'.format(round(np.mean(RITA_NCM['nmis']), 6), round(np.std(RITA_NCM['nmis']), 6), round(max(RITA_NCM['nmis']), 6)))
+    # log.info('ARIs_mean={},std={}, max={}'.format(round(np.mean(RITA_NCM['ARIs']), 6), round(np.std(RITA_NCM['ARIs']), 6), round(max(RITA_NCM['ARIs']), 6)))
+    # log.info('F1_mean={},std={}, max={}'.format(round(np.mean(RITA_NCM['F1s']), 6), round(np.std(RITA_NCM['F1s']), 6), round(max(RITA_NCM['F1s']), 6)))
+    # log.info('FMI_mean={},std={}, max={}'.format(round(np.mean(RITA_NCM['FMIs']), 6), round(np.std(RITA_NCM['FMIs']), 6), round(max(RITA_NCM['FMIs']), 6)))
+    # log.info('Cs_mean={},std={}, max={}\n'.format(round(np.mean(RITA_NCM['Cs']), 6), round(np.std(RITA_NCM['Cs']), 6), round(max(RITA_NCM['Cs']), 6)))
+    # log.info('Precisions_mean={},std={}, max={}'.format(round(np.mean(RITA_NCM['Precisions']), 6), round(np.std(RITA_NCM['Precisions']), 6), round(max(RITA_NCM['Precisions']), 6)))
+    # log.info('Accuracys_mean={},std={}, max={}'.format(round(np.mean(RITA_NCM['Accuracys']), 6), round(np.std(RITA_NCM['Accuracys']), 6), round(max(RITA_NCM['Accuracys']), 6)))
+    # log.info('Recalls_mean={},std={}, max={}'.format(round(np.mean(RITA_NCM['Recalls']), 6), round(np.std(RITA_NCM['Recalls']), 6), round(max(RITA_NCM['Recalls']), 6)))
+    # log.info('AMIs_mean={},std={}, max={}'.format(round(np.mean(RITA_NCM['AMIs']), 6), round(np.std(RITA_NCM['AMIs']), 6), round(max(RITA_NCM['AMIs']), 6)))
+    #
+    # # =============================================================================
+    # # 输出结果 RITA_NCR
+    # # =============================================================================
+    # log.info("\n## FHGCD_Louvain RITA_NCR #### {} ####".format(network_name))
+    # RITA_NCR['MGs'].remove(min(RITA_NCR['MGs']))
+    # RITA_NCR['SGs'].remove(min(RITA_NCR['SGs']))
+    # RITA_NCR['nmis'].remove(min(RITA_NCR['nmis']))
+    # RITA_NCR['ARIs'].remove(min(RITA_NCR['ARIs']))
+    # RITA_NCR['F1s'].remove(min(RITA_NCR['F1s']))
+    # RITA_NCR['FMIs'].remove(min(RITA_NCR['FMIs']))
+    # RITA_NCR['Precisions'].remove(min(RITA_NCR['Precisions']))
+    # RITA_NCR['Accuracys'].remove(min(RITA_NCR['Accuracys']))
+    # RITA_NCR['Recalls'].remove(min(RITA_NCR['Recalls']))
+    # RITA_NCR['AMIs'].remove(min(RITA_NCR['AMIs']))
+    #
+    # log.info("########### 多指标计算 RITA_NCR ###########")
+    # log.info('MG_mean={},std={}, max={}'.format(round(np.mean(RITA_NCR['MGs']), 6), round(np.std(RITA_NCR['MGs']), 6), round(max(RITA_NCR['MGs']), 6)))
+    # log.info('SG_mean={},std={}, max={}'.format(round(np.mean(RITA_NCR['SGs']), 6), round(np.std(RITA_NCR['SGs']), 6), round(max(RITA_NCR['SGs']), 6)))
+    # log.info('Hcut_mean={},std={}, min={}'.format(round(np.mean(RITA_NCR['Hcuts']), 6), round(np.std(RITA_NCR['Hcuts']), 6), round(min(RITA_NCR['Hcuts']), 6)))
+    # log.info('nmis_mean={},std={}, max={}'.format(round(np.mean(RITA_NCR['nmis']), 6), round(np.std(RITA_NCR['nmis']), 6), round(max(RITA_NCR['nmis']), 6)))
+    # log.info('ARIs_mean={},std={}, max={}'.format(round(np.mean(RITA_NCR['ARIs']), 6), round(np.std(RITA_NCR['ARIs']), 6), round(max(RITA_NCR['ARIs']), 6)))
+    # log.info('F1_mean={},std={}, max={}'.format(round(np.mean(RITA_NCR['F1s']), 6), round(np.std(RITA_NCR['F1s']), 6), round(max(RITA_NCR['F1s']), 6)))
+    # log.info('FMI_mean={},std={}, max={}'.format(round(np.mean(RITA_NCR['FMIs']), 6), round(np.std(RITA_NCR['FMIs']), 6), round(max(RITA_NCR['FMIs']), 6)))
+    # log.info('Cs_mean={},std={}, max={}\n'.format(round(np.mean(RITA_NCR['Cs']), 6), round(np.std(RITA_NCR['Cs']), 6), round(max(RITA_NCR['Cs']), 6)))
+    # log.info('Precisions_mean={},std={}, max={}'.format(round(np.mean(RITA_NCR['Precisions']), 6), round(np.std(RITA_NCR['Precisions']), 6), round(max(RITA_NCR['Precisions']), 6)))
+    # log.info('Accuracys_mean={},std={}, max={}'.format(round(np.mean(RITA_NCR['Accuracys']), 6), round(np.std(RITA_NCR['Accuracys']), 6), round(max(RITA_NCR['Accuracys']), 6)))
+    # log.info('Recalls_mean={},std={}, max={}'.format(round(np.mean(RITA_NCR['Recalls']), 6), round(np.std(RITA_NCR['Recalls']), 6), round(max(RITA_NCR['Recalls']), 6)))
+    # log.info('AMIs_mean={},std={}, max={}'.format(round(np.mean(RITA_NCR['AMIs']), 6), round(np.std(RITA_NCR['AMIs']), 6), round(max(RITA_NCR['AMIs']), 6)))

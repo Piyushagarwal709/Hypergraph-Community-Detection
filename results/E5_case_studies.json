@@ -1,0 +1,40 @@
+[
+  {
+    "dataset": "hospital",
+    "node_id": 74,
+    "incident_hyperedges_count": 11,
+    "memberships": [
+      {
+        "community": 5,
+        "membership": 0.5419
+      },
+      {
+        "community": 2,
+        "membership": 0.4095
+      },
+      {
+        "community": 3,
+        "membership": 0.0465
+      }
+    ]
+  },
+  {
+    "dataset": "workspace",
+    "node_id": 24,
+    "incident_hyperedges_count": 9,
+    "memberships": [
+      {
+        "community": 2,
+        "membership": 0.5405
+      },
+      {
+        "community": 1,
+        "membership": 0.3953
+      },
+      {
+        "community": 3,
+        "membership": 0.0642
+      }
+    ]
+  }
+]
