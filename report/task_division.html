@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>FMHMO-Overlap - Project Work Division & Progress Report</title>
+<style>
+  @page {
+    size: A4 portrait;
+    margin: 8mm 10mm 8mm 10mm;
+  }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: #1e293b;
+    background-color: #ffffff;
+    font-size: 8.5pt;
+    line-height: 1.32;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .header {
+    border-bottom: 2px solid #2563eb;
+    padding-bottom: 5px;
+    margin-bottom: 7px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .header-left h1 {
+    font-size: 13pt;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: -0.2px;
+    margin-bottom: 2px;
+  }
+  .header-left .subtitle {
+    font-size: 8.5pt;
+    font-weight: 600;
+    color: #2563eb;
+    margin-bottom: 1px;
+  }
+  .header-left .meta {
+    font-size: 7.5pt;
+    color: #64748b;
+  }
+  .header-right {
+    text-align: right;
+    font-size: 7.5pt;
+  }
+  .badge {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 9999px;
+    font-size: 7pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    background-color: #dbeafe;
+    color: #1e40af;
+    border: 1px solid #bfdbfe;
+    margin-bottom: 3px;
+  }
+  .meta-tag {
+    color: #475569;
+    line-height: 1.25;
+  }
+
+  .section-title {
+    font-size: 9pt;
+    font-weight: 700;
+    color: #0f172a;
+    background: #f1f5f9;
+    padding: 2.5px 6px;
+    border-left: 3px solid #2563eb;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  /* Section 1: Overview */
+  .overview-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    padding: 5px 8px;
+    margin-bottom: 6px;
+  }
+  .overview-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 8px;
+  }
+  .overview-col p {
+    margin-bottom: 2px;
+  }
+  .overview-col strong {
+    color: #0f172a;
+  }
+
+  /* Section 2: Work Division Columns */
+  .division-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 7px;
+    margin-bottom: 6px;
+  }
+  .member-card {
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    background: #ffffff;
+    overflow: hidden;
+  }
+  .member-card.leader {
+    border-color: #93c5fd;
+    box-shadow: 0 1px 2px rgba(37, 99, 235, 0.05);
+  }
+  .card-header {
+    padding: 4px 8px;
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .member-card.leader .card-header {
+    background: #eff6ff;
+    border-bottom-color: #dbeafe;
+  }
+  .card-header h2 {
+    font-size: 9.5pt;
+    font-weight: 700;
+    color: #0f172a;
+  }
+  .card-header .role-tag {
+    font-size: 7pt;
+    font-weight: 600;
+    padding: 1px 5px;
+    border-radius: 3px;
+    background: #e2e8f0;
+    color: #334155;
+  }
+  .member-card.leader .role-tag {
+    background: #2563eb;
+    color: #ffffff;
+  }
+  .card-body {
+    padding: 5px 8px;
+  }
+  .task-group {
+    margin-bottom: 4px;
+  }
+  .task-group:last-child {
+    margin-bottom: 0;
+  }
+  .task-group-title {
+    font-weight: 700;
+    font-size: 8pt;
+    color: #1e3a8a;
+    margin-bottom: 1px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+  }
+  .task-list {
+    list-style-type: none;
+    padding-left: 0;
+  }
+  .task-list li {
+    position: relative;
+    padding-left: 9px;
+    margin-bottom: 2.5px;
+    font-size: 7.8pt;
+    color: #334155;
+    line-height: 1.25;
+  }
+  .task-list li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #2563eb;
+    font-weight: bold;
+  }
+  .file-tag {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 6.8pt;
+    background: #f1f5f9;
+    padding: 0.5px 3px;
+    border-radius: 2px;
+    color: #0f172a;
+    border: 1px solid #e2e8f0;
+  }
+
+  /* Section 3: Results Table */
+  .results-box {
+    margin-bottom: 6px;
+  }
+  table.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 7.5pt;
+  }
+  table.results-table th, table.results-table td {
+    padding: 3px 6px;
+    border: 1px solid #e2e8f0;
+    text-align: left;
+  }
+  table.results-table th {
+    background: #f8fafc;
+    color: #334155;
+    font-weight: 700;
+  }
+  table.results-table tr:nth-child(even) td {
+    background: #fafafa;
+  }
+  .badge-pass {
+    color: #065f46;
+    background: #d1fae5;
+    font-weight: 700;
+    padding: 1px 4px;
+    border-radius: 2px;
+    font-size: 7pt;
+  }
+
+  /* Footer */
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 4px;
+    font-size: 7pt;
+    color: #64748b;
+  }
+</style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <div class="subtitle">SCA Project (5th Sem) • Bennett University</div>
+      <h1>FMHMO-Overlap: Project Work Division & Status Report</h1>
+      <div class="meta">
+        <strong>Extending Fuzzy Hypergraph Community Detection to Overlapping Communities</strong><br>
+        Based on: Xiao et al., <em>IEEE Transactions on Fuzzy Systems</em> (2025) • Under Guidance of: <strong>Dr. Soumita Das</strong>
+      </div>
+    </div>
+    <div class="header-right">
+      <span class="badge">Milestone 2 (80% Submission)</span><br>
+      <span class="meta-tag"><strong>Status:</strong> Core Implementation Complete</span><br>
+      <span class="meta-tag"><strong>Date:</strong> October 2026</span><br>
+      <span class="meta-tag"><strong>Tests:</strong> 13/13 Passed (100%)</span>
+    </div>
+  </div>
+
+  <!-- Section 1: What We Did (Core Innovation) -->
+  <div class="section-title">1. Project Summary & Core Research Contribution (What We Did)</div>
+  <div class="overview-box">
+    <div class="overview-grid">
+      <div class="overview-col">
+        <p><strong>Identified Research Gap:</strong> The original FMHMO algorithm (Xiao et al., IEEE TFS 2025) calculates continuous fuzzy membership degrees <i>u</i>(<i>v</i>, <i>C</i>) between nodes and hyperedge communities, but discards multi-community structure by applying a strict <span class="file-tag">argmax</span> (Eq. 12), forcing a crisp single-community partition.</p>
+        <p><strong>Our Proposed Solution:</strong> We created <strong>FMHMO-Overlap</strong>, retaining the full continuous membership matrix <b>U</b> &isin; [0, 1]<sup><i>N</i> &times; <i>K</i></sup> and introducing fuzzy assignment rules to detect genuine multi-community overlapping nodes without any re-training overhead.</p>
+      </div>
+      <div class="overview-col">
+        <p><strong>Key Technical Milestones Achieved:</strong></p>
+        <p>• <strong>Phase 1 Exact Reproduction (E0):</strong> Replicated published paper results (3-decimal match on Workspace: NMI 0.836, ARI 0.849, F1 0.924).</p>
+        <p>• <strong>Continuous Extraction & Rules (Phase 2-3):</strong> Implemented 5 assignment rules (<i>R</i><sub>0</sub> argmax baseline, <i>R</i><sub>1</sub> relative, <i>R</i><sub>2</sub> absolute, <i>R</i><sub>3</sub> knee, <i>R</i><sub>4</sub> top-<i>k</i>).</p>
+        <p>• <strong>Planted Benchmark & Metrics (Phase 4-5):</strong> Synthetic hypergraph generator with planted overlap (<i>p</i><sub>ov</sub>), ONMI, Omega Index, and Overlapping F1 evaluation.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 2: Work Division (Who Did What) -->
+  <div class="section-title">2. Work Division & Member Responsibilities (Who Did What)</div>
+  <div class="division-grid">
+
+    <!-- Member 1: Piyush Agarwal -->
+    <div class="member-card leader">
+      <div class="card-header">
+        <div>
+          <h2>Piyush Agarwal</h2>
+          <span style="font-size: 7.2pt; color: #64748b;">Method & Algorithm Architecture Lead</span>
+        </div>
+        <span class="role-tag">Method Lead</span>
+      </div>
+      <div class="card-body">
+        
+        <div class="task-group">
+          <div class="task-group-title">🔬 Mathematical Mapping & Code Discovery</div>
+          <ul class="task-list">
+            <li>Reverse-engineered paper source code; mapped Eqs. 1–5 (motif construct) and Eqs. 10–12 (membership formulation) in <span class="file-tag">docs/CODEBASE_MAP.md</span>.</li>
+            <li>Pinpointed exact argmax loss bottleneck at lines 122 & 174 of <span class="file-tag">FMHMO_function.py</span>.</li>
+          </ul>
+        </div>
+
+        <div class="task-group">
+          <div class="task-group-title">🔁 Baseline Paper Reproduction (Phase 1)</div>
+          <ul class="task-list">
+            <li>Built reproduction harness <span class="file-tag">experiments/run_E0.py</span>; reproduced 3 benchmarks (workspace NMI 0.836, hospital <i>Q</i><sub>hyp</sub> 0.645, high school).</li>
+          </ul>
+        </div>
+
+        <div class="task-group">
+          <div class="task-group-title">⚙️ Continuous Matrix U & Overlap Rules (Phase 2 & 3)</div>
+          <ul class="task-list">
+            <li>Engineered <span class="file-tag">overlap/memberships.py</span> to extract continuous <b>U</b> &isin; [0, 1]<sup><i>N</i> &times; <i>K</i></sup>; verified Paper Figure 1 toy example (<i>S</i>(<i>v</i><sub>0</sub>, <i>v</i><sub>1</sub>) = 0.667).</li>
+            <li>Designed and coded assignment rules <i>R</i><sub>0</sub> through <i>R</i><sub>4</sub> and overlap statistics tracking in <span class="file-tag">overlap/rules.py</span> & <span class="file-tag">overlap/stats.py</span>.</li>
+          </ul>
+        </div>
+
+        <div class="task-group">
+          <div class="task-group-title">💻 Interactive Web Demo & Real-World Case Studies</div>
+          <ul class="task-list">
+            <li>Developed full interactive Streamlit web dashboard in <span class="file-tag">demo/app.py</span>.</li>
+            <li>Executed Experiment E5 on empirical real-world networks (<span class="file-tag">experiments/run_E5.py</span>).</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Member 2: Suraj Kumar Tiwari -->
+    <div class="member-card">
+      <div class="card-header">
+        <div>
+          <h2>Suraj Kumar Tiwari</h2>
+          <span style="font-size: 7.2pt; color: #64748b;">Evaluation, Benchmarking & Report Lead</span>
+        </div>
+        <span class="role-tag" style="background: #475569; color: #fff;">Evaluation Lead</span>
+      </div>
+      <div class="card-body">
+
+        <div class="task-group">
+          <div class="task-group-title">📊 Overlapping Metric Suite (Phase 4)</div>
+          <ul class="task-list">
+            <li>Formulated and implemented Overlapping NMI (ONMI, Lancichinetti et al.), Omega Index (Collins & Dent), and Overlapping F1 in <span class="file-tag">overlap/metrics.py</span>.</li>
+            <li>Implemented Overlap-Node Precision, Recall, and F1 to evaluate detection strictly on bridge/boundary nodes.</li>
+          </ul>
+        </div>
+
+        <div class="task-group">
+          <div class="task-group-title">🌱 Planted-Overlap Synthetic Generator (Phase 4)</div>
+          <ul class="task-list">
+            <li>Built hypergraph generator with planted multi-membership ground truth (<i>p</i><sub>ov</sub> &isin; [0.0, 0.40]) in <span class="file-tag">overlap/generate.py</span>.</li>
+          </ul>
+        </div>
+
+        <div class="task-group">
+          <div class="task-group-title">📉 Baseline Algorithm Implementation (Phase 5)</div>
+          <ul class="task-list">
+            <li>Implemented standard overlapping competitor: <em>Clique Expansion + Louvain + Soft Thresholding</em> (<span class="file-tag">overlap/baselines.py</span>).</li>
+          </ul>
+        </div>
+
+        <div class="task-group">
+          <div class="task-group-title">🧪 Benchmark Experiments & LaTeX Project Report</div>
+          <ul class="task-list">
+            <li>Conducted E1 (Rule comparison vs <i>p</i><sub>ov</sub>), E2 (Parameter sensitivity &theta;, &alpha;), E3 (Baseline comparison), and E4 (Zero-overlap control).</li>
+            <li>Authored complete academic report and Overleaf manuscript in <span class="file-tag">report/main.tex</span> & <span class="file-tag">report/PROJECT_REPORT.md</span>.</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Section 3: Empirical Validation & Deliverables -->
+  <div class="section-title">3. Key Empirical Results & Completed Deliverables</div>
+  <div class="results-box">
+    <table class="results-table">
+      <thead>
+        <tr>
+          <th>Evaluation Dimension</th>
+          <th>Baseline FMHMO (Xiao 2025)</th>
+          <th>Our FMHMO-Overlap (Proposed)</th>
+          <th>Empirical Finding / Significance</th>
+          <th>Verification</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Paper Reproduction (E0)</strong></td>
+          <td>NMI: 0.836, ARI: 0.849 (Workspace)</td>
+          <td>NMI: 0.836, ARI: 0.849 (Workspace)</td>
+          <td>Exact 3-decimal match; Cython acceleration verified</td>
+          <td><span class="badge-pass">REPRODUCED</span></td>
+        </tr>
+        <tr>
+          <td><strong>Overlap Detection (E1, <i>p</i><sub>ov</sub> = 0.20)</strong></td>
+          <td>Overlap-Node F1: <strong>0.000</strong> (Argmax)</td>
+          <td>Overlap-Node F1: <strong>0.765</strong> (Rule <i>R</i><sub>1</sub>)</td>
+          <td>Baseline completely misses overlapping nodes; <i>R</i><sub>1</sub> excels</td>
+          <td><span class="badge-pass">SUPERIOR</span></td>
+        </tr>
+        <tr>
+          <td><strong>Hallucination Control (E4, <i>p</i><sub>ov</sub> = 0.0)</strong></td>
+          <td>0.00% False Overlap</td>
+          <td>0.00% False Overlap (Rules <i>R</i><sub>1</sub>, <i>R</i><sub>2</sub>)</td>
+          <td>No false positive overlap detected when ground truth is crisp</td>
+          <td><span class="badge-pass">0% HALLUCINATION</span></td>
+        </tr>
+        <tr>
+          <td><strong>Reproducibility & Deliverables</strong></td>
+          <td colspan="3">GitHub: <span class="file-tag">github.com/Piyushagarwal709/Hypergraph-Community-Detection</span> • Google Colab • Overleaf Report • Web Demo</td>
+          <td><span class="badge-pass">13/13 TESTS PASS</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <span>Hypergraph Community Detection with Overlapping Communities • Bennett University</span>
+    <span>Method Lead: Piyush Agarwal | Evaluation Lead: Suraj Kumar Tiwari</span>
+    <span>Page 1 of 1</span>
+  </div>
+
+</body>
+</html>

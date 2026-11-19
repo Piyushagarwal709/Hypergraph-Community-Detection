@@ -132,6 +132,16 @@ $p_{\text{ov}} = 0.20$ & R0 (Argmax) & 0.657 & 0.664 & 0.888 & 0.000 \\
 \label{fig:e2}
 \end{figure}
 
+\subsection{Baseline Comparison (E3)}
+We evaluated FMHMO-Overlap against the standard hypergraph baseline: \textit{Clique Expansion + Louvain + Soft Thresholding} (\texttt{Expansion-Overlap}). At low overlap ($p_{\text{ov}} = 0.10$), the expansion baseline performs competitively ($\text{ONMI} = 0.905$ vs $0.875$). However, as multi-community overlap increases to $p_{\text{ov}} = 0.20$, FMHMO-Overlap significantly outperforms the expansion baseline ($\text{ONMI} = 0.786$ vs $0.643$, and $\Omega = 0.828$ vs $0.600$, a $+22.2\%$ advantage). This empirical gain underscores the advantage of preserving higher-order hyperedges rather than projecting them onto pairwise cliques, which induces severe topological distortion in dense overlapping regimes.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.85\textwidth]{E3_baseline_comparison.png}
+\caption{Comparative performance against Expansion-Overlap baseline across planted overlap fractions.}
+\label{fig:e3}
+\end{figure}
+
 \subsection{Control Experiment: Zero False Overlap (E4)}
 On purely disjoint hypergraphs ($p_{\text{ov}} = 0.0$), Rules R1 ($\tau \ge 0.25$) and R2 ($\rho \ge 0.70$) yield a False Overlap Rate of \textbf{0.00\%}. This proves that our thresholding mechanism does not hallucinate artificial overlaps when the underlying network is crisp.
 
@@ -156,7 +166,10 @@ FMHMO-Overlap resolves the critical information-loss limitation of the 2025 IEEE
 \bibitem{xiao2025} J. Xiao, L. Ma, J. Cao, and X. Xu, ``Hypergraph Community Detection With Fuzzy Memberships,'' \textit{IEEE Trans. Fuzzy Syst.}, vol. 33, no. 9, pp. 3255--3268, 2025.
 \bibitem{lancichinetti2009} A. Lancichinetti, S. Fortunato, and J. Kertész, ``Detecting the overlapping and hierarchical community structure in complex networks,'' \textit{New J. Phys.}, vol. 11, no. 3, p. 033015, 2009.
 \bibitem{mcdaid2011} A. F. McDaid, D. Greene, and N. Hurley, ``Normalized Mutual Information to evaluate overlapping community findings,'' \textit{arXiv:1110.2515}, 2011.
+\bibitem{gregory2011} S. Gregory, ``Fuzzy clustering in complex networks,'' \textit{Inf. Sci.}, vol. 181, no. 12, pp. 2487--2496, 2011.
 \bibitem{ruggeri2023} N. Ruggeri, M. Contisciani, F. Battiston, and C. De Bacco, ``Community detection in large hypergraphs,'' \textit{Sci. Adv.}, vol. 9, no. 28, p. eadg9159, 2023.
+\bibitem{contisciani2022} M. Contisciani, F. Battiston, and C. De Bacco, ``Inference of hyperedges and overlapping communities in hypergraphs,'' \textit{Nat. Commun.}, vol. 13, no. 1, p. 7229, 2022.
+\bibitem{kaminski2019} B. Kaminski, V. Poulin, P. Pralat, P. Szufel, and F. Th\'eberge, ``Clustering via hypergraph modularity,'' \textit{PLoS ONE}, vol. 14, no. 11, p. e0224307, 2019.
 \end{thebibliography}
 
 \end{document}
