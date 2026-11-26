@@ -28,6 +28,12 @@ from overlap.rules import assign
 from overlap.stats import compute_overlap_statistics
 
 
+@st.cache_data(show_spinner=False)
+def cached_extract_memberships(hyperedges_tuple, gamma=0.5, seed=42):
+    hyperedges = [list(he) for he in hyperedges_tuple]
+    return extract_memberships_from_raw_hyperedges(hyperedges, gamma=gamma, seed=seed)
+
+
 st.set_page_config(
     page_title="FMHMO-Overlap: Hypergraph Community Detection",
     page_icon="🕸️",
@@ -67,16 +73,26 @@ else:
     hosp_file = os.path.join(PROJECT_ROOT, "FMHMO", "FMHMO", "data", "realNetwork", "hospital.txt")
     hyperedges = []
     if os.path.exists(hosp_file):
+        raw_lines = []
+        has_zero = False
         with open(hosp_file, "r") as f:
             for line in f:
                 parts = line.strip().replace(",", " ").split()
                 if parts:
-                    hyperedges.append([int(p) - 1 if "0" not in line else int(p) for p in parts])
+                    edge = [int(p) for p in parts]
+                    if 0 in edge:
+                        has_zero = True
+                    raw_lines.append(edge)
+        if not has_zero:
+            hyperedges = [[v - 1 for v in edge] for edge in raw_lines]
+        else:
+            hyperedges = raw_lines
     n_nodes = max([max(he) for he in hyperedges]) + 1 if hyperedges else 75
 
-# Run FMHMO & extract U
+# Run FMHMO & extract U (cached for instant slider responsiveness)
 with st.spinner("Computing hypergraph reduction and membership matrix U..."):
-    U, crisp_part, detected_c = extract_memberships_from_raw_hyperedges(hyperedges, gamma=0.5, seed=42)
+    hyperedges_tuple = tuple(tuple(he) for he in hyperedges)
+    U, crisp_part, detected_c = cached_extract_memberships(hyperedges_tuple, gamma=0.5, seed=42)
 
 st.sidebar.markdown("---")
 st.sidebar.subheader("📐 Assignment Rule")
@@ -133,7 +149,7 @@ with v_col1:
     fig, ax = plt.subplots(figsize=(8, 6))
     
     # Colors for communities
-    cmap = plt.cm.get_cmap("tab10", detected_c)
+    cmap = plt.get_cmap("tab10", detected_c)
     node_colors = [cmap(crisp_part[i] % detected_c) for i in G.nodes()]
     
     # Distinguish single vs overlapping nodes
